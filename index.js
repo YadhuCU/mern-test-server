@@ -40,6 +40,10 @@ app.post("/users/register", async (req, res) => {
   } = req.body;
 
   try {
+    const existingUser = await users.findOne({ email });
+
+    if (existingUser) return res.status(404).json("Email already exist");
+
     const user = new users({
       firstName,
       lastName,
